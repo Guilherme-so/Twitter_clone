@@ -78,6 +78,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           text: "Already have an account?",
                           style: const TextStyle(
                             fontSize: 16,
+                            color: Colors.grey,
                           ),
                           children: [
                             TextSpan(
