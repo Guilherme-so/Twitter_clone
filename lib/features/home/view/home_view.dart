@@ -5,6 +5,7 @@ import 'package:twitter_clone/theme/theme.dart';
 
 import '../../../common/reusable_appbar.dart';
 import '../../../constants/constants.dart';
+import '../../tweet/view/create_tweet_view.dart';
 
 class HomeView extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -34,10 +35,16 @@ class _HomeViewState extends State<HomeView> {
         children: UIConstants.topTabBarPages,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            CreateTweet.route(),
+          );
+        },
         child: const Icon(
           Icons.add,
           color: Pallete.whiteColor,
+          size: 28,
         ),
       ),
       bottomNavigationBar: CupertinoTabBar(
