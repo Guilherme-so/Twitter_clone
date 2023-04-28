@@ -2,13 +2,18 @@ import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:twitter_clone/apis/auth_api.dart';
+import 'package:twitter_clone/apis/user_api.dart';
 import 'package:twitter_clone/features/auth/view/login_view.dart';
+import 'package:twitter_clone/models/user_model.dart';
 import '../../../core/utils.dart';
 import '../../home/view/home_view.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, bool>((ref) {
-  return AuthController(authAPI: ref.watch(authAPIProvider));
+  return AuthController(
+    authAPI: ref.watch(authAPIProvider),
+    userAPI: ref.watch(userApiProvider),
+  );
 });
 
 final currentUserAccountProvider = FutureProvider((ref) {
@@ -18,9 +23,12 @@ final currentUserAccountProvider = FutureProvider((ref) {
 
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
+  final UserAPI _userAPI;
   AuthController({
     required AuthAPI authAPI,
+    required UserAPI userAPI,
   })  : _authAPI = authAPI,
+        _userAPI = userAPI,
         super(false);
 
   Future<User?> currentUser() => _authAPI.currentUserAccount();
@@ -35,9 +43,25 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
-      (r) {
-        showSnackBar(context, 'Account created please login!');
-        Navigator.push(context, LoginView.route());
+      (r) async {
+        UserModel userModel = UserModel(
+            email: email,
+            name: getNameFromEmail(email),
+            followers: [],
+            following: [],
+            profilePic: '',
+            bannerPic: '',
+            uid: '',
+            bio: '',
+            isTwitterBlue: false);
+        final result = await _userAPI.saveUserData(userModel);
+        result.fold(
+          (l) => showSnackBar(context, l.message),
+          (r) {
+            showSnackBar(context, 'Account created please login!');
+            Navigator.push(context, LoginView.route());
+          },
+        );
       },
     );
   }
