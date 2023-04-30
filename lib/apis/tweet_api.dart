@@ -15,6 +15,7 @@ final tweetAPIProvider = Provider((ref) {
 
 abstract class ITweetAPI {
   FutureEither<Document> shareTweet(Tweet tweet);
+  Future<List<Document>> getTweets();
 }
 
 class TweetAPI extends ITweetAPI {
@@ -40,5 +41,13 @@ class TweetAPI extends ITweetAPI {
         Failure(e.toString(), st),
       );
     }
+  }
+
+  @override
+  Future<List<Document>> getTweets() async {
+    final documents = await _db.listDocuments(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.tweetsCollection);
+    return documents.documents;
   }
 }
