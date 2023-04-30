@@ -41,8 +41,11 @@ class TweetCard extends ConsumerWidget {
                           //retweeted
                           Row(
                             children: [
+                              const SizedBox(height: 5),
                               Container(
-                                margin: const EdgeInsets.only(right: 5),
+                                margin: EdgeInsets.only(
+                                  right: user.isTwitterBlue ? 1 : 5,
+                                ),
                                 child: Text(
                                   user.name,
                                   style: const TextStyle(
@@ -52,30 +55,29 @@ class TweetCard extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                "@${user.name} - ${timeago.format(
+                                '@${user.name} · ${timeago.format(
                                   tweet.tweetedAt,
                                   locale: 'en_short',
-                                )}",
+                                )}',
                                 style: const TextStyle(
                                   color: Pallete.greyColor,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                           //replied to
                           HashtagText(text: tweet.text),
                           if (tweet.tweetType == TweetType.image)
                             CarouselImage(imageLinks: tweet.imagesLinks),
-                          if (tweet.link.isEmpty) ...[
-                            const SizedBox(
-                              height: 4,
-                            ),
+                          if (tweet.link.isNotEmpty) ...[
+                            const SizedBox(height: 4),
                             AnyLinkPreview(
+                              link: tweet.link,
                               displayDirection:
                                   UIDirection.uiDirectionHorizontal,
-                              link: tweet.link,
-                            )
+                              backgroundColor: Colors.grey[300],
+                            ),
                           ],
                           Container(
                             margin: const EdgeInsets.only(top: 10, right: 20),

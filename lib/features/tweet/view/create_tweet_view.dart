@@ -33,6 +33,7 @@ class _CreateTweetState extends ConsumerState<CreateTweet> {
           text: tweetTextController.text,
           context: context,
         );
+    Navigator.pop(context);
   }
 
   @override

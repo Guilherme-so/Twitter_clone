@@ -18,9 +18,14 @@ final tweetControllerProvider =
   );
 });
 
-final getTweetsProvider = FutureProvider((ref) {
+final getTweetsProvider = FutureProvider.autoDispose((ref) {
   final tweetProvider = ref.watch(tweetControllerProvider.notifier);
   return tweetProvider.getTweets();
+});
+
+final getLatestTweetProvider = StreamProvider.autoDispose((ref) {
+  final tweetAPI = ref.watch(tweetAPIProvider);
+  return tweetAPI.getLatestTweet();
 });
 
 class TweetController extends StateNotifier<bool> {

@@ -40,6 +40,7 @@ class HashtagText extends StatelessWidget {
           TextSpan(
             text: '$element ',
             style: const TextStyle(
+              color: Pallete.whiteColor,
               fontSize: 18,
             ),
           ),
