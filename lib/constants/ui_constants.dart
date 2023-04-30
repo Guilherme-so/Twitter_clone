@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../features/tweet/widgets/tweet_list.dart';
+
 class UIConstants {
-  static List<Widget> topTabBarPages = [
-    const Text('Home Screen'),
-    const Text('Search Screen'),
-    const Text('Notification Screen'),
+  static List<Widget> topTabBarPages = const [
+    TweetsList(),
+    Text('Search Screen'),
+    Text('Notification Screen'),
   ];
 }
